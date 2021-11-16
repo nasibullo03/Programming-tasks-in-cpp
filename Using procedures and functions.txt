@@ -1,0 +1,132 @@
+//https://onlinegdb.com/TdFhB-YVVE
+/**********************************************
+ * Автор:    Халилов Н.Х.                      *
+ *Дата:     22.10.2021                        *
+ *Название: Использование процедур и функции  *
+ ***********************************************/
+#include <iostream>
+#include <cmath>
+#include <ctime>
+
+using namespace std;
+
+int amountArrA = 0, amountArrL = 0, amountArrT = 0;
+int arrAmountA[50], arrAmountL[50], arrAmountT[50];
+int indexA = 0, indexL = 0, indexT = 0;
+
+// Вывод елементов массива
+void printArray(const int arraySize, string arrayName, int inputA, int inputB) {
+
+	double arr[arraySize];
+	int amount;
+
+	cout << endl << arrayName << "[" << arraySize << "]" << " =[ ";
+
+	for (amount = 0; amount < arraySize; ++amount) {
+		arr[amount] = random() % (arraySize *2 + 10);
+
+		if (amount == 0) {
+			cout << arr[amount];
+		}
+		else {
+			cout << ", " << arr[amount];
+		}
+
+		if (arr[amount] > inputA && arr[amount] < inputB) {
+			if (arrayName == "A") {
+			    ++amountArrA;
+				arrAmountA[indexA] = arr[amount];
+				++indexA;
+			}
+			else if (arrayName == "L") {
+			    ++amountArrL;
+				arrAmountL[indexL] = arr[amount];
+				++indexL;
+			}
+			else if (arrayName == "T") {
+			    ++amountArrT;
+				arrAmountT[indexT] = arr[amount];
+				++indexT;
+			}
+		}
+	}
+	cout << "];" << endl;
+}
+
+//Элементов попадающих в интервал (a,b)
+void elementsFallingIntoTheInterval(string arrayName, int inputA, int inputB, int index) {
+
+	cout << "Элементов массива " << arrayName << ", попадающих в интервал (" << inputA << ", " << inputB << ") :[";
+	for (int indexSize = 0; indexSize < index; ++indexSize)	{
+		if (arrayName == "A") {
+			if (indexSize == 0) {
+				cout << arrAmountA[indexSize];
+			}
+			else {
+				cout << ", " << arrAmountA[indexSize];
+			}
+		}
+		else if (arrayName == "L") {
+
+			if (indexSize == 0) {
+				cout << arrAmountL[indexSize];
+			}
+			else {
+				cout << ", " << arrAmountL[indexSize];
+			}
+		}
+		else if (arrayName == "T")
+		{
+
+			if (indexSize == 0)	{
+				cout << arrAmountT[indexSize];
+			}
+			else {
+				cout << ", " << arrAmountT[indexSize];
+			}
+		}
+	}
+	if (arrayName == "A") {
+		cout << "] = " << amountArrA << endl << endl;
+	}
+	else if (arrayName == "L") {
+		cout << "] = " << amountArrL << endl << endl;
+	}
+	else if (arrayName == "T") {
+		cout << "] = " << amountArrT << endl << endl;
+	}
+}
+
+int main() {
+
+	int sizeOfArrayA, sizeOfArrayL, sizeOfArrayT;
+
+	cout << "Введите количество элементов массива A: ";
+	cin >> sizeOfArrayA;
+	cout << "Введите количество элементов массива L: ";
+	cin >> sizeOfArrayL;
+	cout << "Введите количество элементов массива T: ";
+	cin >> sizeOfArrayT;
+
+	const int arrayASize = sizeOfArrayA, arrayLSize = sizeOfArrayL, arrayTSize = sizeOfArrayT;
+	int amountL, amountT;
+	double arrA[arrayASize], arrL[arrayLSize], arrT[arrayTSize], inputA, inputB;
+
+	cout << "Введите число a:  ";
+	cin >> inputA;
+	cout << "Введите число b:  ";
+	cin >> inputB;
+
+	srand(time(NULL));
+
+	printArray(arrayASize, "A", inputA, inputB);	//вывод элементов массива A
+	printArray(arrayLSize, "L", inputA, inputB);	//вывод элементов массива L
+	printArray(arrayTSize, "T", inputA, inputB);	//вывод элементов массива T
+
+	elementsFallingIntoTheInterval("A", inputA, inputB, indexA); //вывод элементов массива A попадающих в интервал  (a,b)
+	elementsFallingIntoTheInterval("L", inputA, inputB, indexL); //вывод элементов массива L попадающих в интервал  (a,b)
+	elementsFallingIntoTheInterval("T", inputA, inputB, indexT); //вывод элементов массива T попадающих в интервал  (a,b)
+
+	return 0;
+
+}
