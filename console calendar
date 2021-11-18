@@ -1,11 +1,11 @@
-// https://onlinegdb.com/VBbPUFuAI
+// https://onlinegdb.com/O4T2KHtjJ
 /**********************************************
  * Автор:    Халилов Н.Х.                      *
  * Дата:     10.11.2021                        *
  * Название: Каледарь в консоли                *
  ***********************************************/
 #include <iostream>
-#include <stdio.h>
+#include <iomanip>
 #include <fstream>
 #include <time.h>
 #include <string.h>
@@ -14,12 +14,8 @@ using namespace std;
 
 int main() {
   // ofstream information("information.txt");
-  FILE * fp = fopen("test.txt", "r+w");
+  ofstream calendarFile("calendar.txt");
 
-  if (fp == NULL) {
-    cout << "Обработка ситуации \"Не удалось открыть файл\"" << endl;
-  }
-  
   time_t now;
   struct tm * timeinfo;
   int year, m, m1, m2, i, j;
@@ -46,7 +42,7 @@ int main() {
   timeinfo -> tm_year = year - 1900;
 
   timeinfo -> tm_mon = 0;
-
+  bool first = true;
   m = -1;
   while (m < 12) {
 
@@ -57,15 +53,19 @@ int main() {
       mktime(timeinfo);
 
       if (timeinfo -> tm_mon > m) {
-
-        // char * my_str = strdup(month[timeinfo->tm_mon]);
-
-        fprintf(fp, "\n                 %s      —\n", month[timeinfo -> tm_mon]);
-        fprintf(fp, "_______________________________\n");
-        fprintf(fp, "  ВС  ПН  ВТ  СР  ЧТ  ПТ  СБ   \n");
-        fprintf(fp, "_______________________________\n");
+        
+        int space =  strlen(month[timeinfo -> tm_mon])/2; 
+        cout << endl << setw(31 + space) << month[timeinfo -> tm_mon];
+        timeinfo -> tm_mon = timeinfo -> tm_mon + 1;
+        int space1 =  strlen(month[timeinfo -> tm_mon])/2; 
+        cout <<" "<< setw(31 + space) << month[timeinfo -> tm_mon];
+        timeinfo -> tm_mon = timeinfo -> tm_mon + 1;
+        cout <<" "<< month[timeinfo -> tm_mon]  << endl;
+        cout<< "_______________________________"  << endl;
+        cout << "  ВС  ПН  ВТ  СР  ЧТ  ПТ  СБ   " << endl;
+        cout << "_______________________________" << endl;
         for (j = 0; j < (timeinfo -> tm_wday); j++)
-          fprintf(fp, "    ");
+          cout << " ";
         m++;
         break;
       }
@@ -73,26 +73,38 @@ int main() {
         m++;
         break;
       }
-      // int* pValValue = &timeinfo->tm_mday;
-      fprintf(fp, "%4d", timeinfo -> tm_mday);
+     
+     cout << setw(4) << timeinfo -> tm_mday;
 
       if (timeinfo -> tm_wday == 6)
-        fprintf(fp, "\n");
+       cout << endl;
     }
   }
 
-  // ifstream calendar("test.txt");
+//     ifstream procesingCalendar("calendar.txt");
+//     ofstream newCalendar("calendar.txt") ;      
+//     int column1 = 1, column2 = 11,  column3 = 20;
+//   for (i=0; i<116; ++i) {
+//   string str;
+//   getline(procesingCalendar, str);
+//   if (i==column1) {
+//       newCalendar << str;
+//       column1 += 28;
+//   } else if (i==column2) {
+//       newCalendar << str;
+//       column2 += 28;
+//   } else if (i==column3) {
+//       newCalendar << str << endl;
+//       column3 += 28;
+//   }
+//   cout << "text["<<i<<"] = \"" << str << "\"" << endl;
+//   }
 
-  // for (i=1; i<116; ++i) {
-  //     string str;
-  // getline(calendar, str);
-  // cout << "text = \"" << str << "\"" << endl;
-  // }
+  
+  calendarFile.close();
+//   newCalendar.close();
 
-  fclose(fp);
-  // calendar.close();
 
-  getchar();
 
   return 0;
 }
