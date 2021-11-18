@@ -1,8 +1,8 @@
-//https://onlinegdb.com/AVgrX0E5vu
+// https://onlinegdb.com/46ztZ4Hf-
 /***********************************************
  * Автор:    Халилов Н.Х.                      *
  * Дата:     11.11.2021                        *
- * Название: Частота повторение букв		       *
+ * Название: Частота повторение букв		   *
  ***********************************************/
 #include <string>
 #include <iostream>
@@ -15,164 +15,159 @@ using namespace std;
 
 //Структура для однобуквенных
 struct oneLetterValue {
-    char letterName;
-    int countLetter;
+  char letterName;
+  int countLetter;
 };
-vector <oneLetterValue> oneLetterArr;
+vector < oneLetterValue > oneLetterArr;
 
 //Структура для двухбуквенных
-struct twoLetterValue  {
-    string letterName;
-    int countLetter;
+struct twoLetterValue {
+  string letterName;
+  int countLetter;
 };
 
-vector <twoLetterValue> twoLetterArr;;
+vector < twoLetterValue > twoLetterArr;;
 
 // Преобразование прописных букв в строчные
 string SProcessingAndLower(string strText) {
-    char character;
-    int letter = 0;
+  char character;
+  int letter = 0;
 
-    ofstream createProcessingFile("processing.txt");
+  ofstream createProcessingFile("processing.txt");
 
-    while (strText[letter]) {	// пока не конец строки
-        character = strText[letter];
-        createProcessingFile << (char) tolower(character);	// преобразовать текущий символ строки в строчный
-        letter++;	// инкремент индекса символов в строке
-    }
+  while (strText[letter]) { // пока не конец строки
+    character = strText[letter];
+    createProcessingFile << (char) tolower(character); // преобразовать текущий символ строки в строчный
+    letter++; // инкремент индекса символов в строке
+  }
 
-    createProcessingFile.close();
+  createProcessingFile.close();
 
-    ifstream openProcessingFile("processing.txt");
-    string processingText;
-    getline(openProcessingFile, processingText);
-    openProcessingFile.close();
+  ifstream openProcessingFile("processing.txt");
+  string processingText;
+  getline(openProcessingFile, processingText);
+  openProcessingFile.close();
 
-    return processingText;
+  return processingText;
 
 }
 
 // подсчитываем количество символов в тексте, без пробелов
-int ICharachtersOfTheText (string str) {
-    const char * stringArray = str.c_str();
-    int strLength = strlen(stringArray);
-    int spaces = 0;
-    for (int arrayIndex = 0; stringArray[arrayIndex]; arrayIndex++) {
-        if (stringArray[arrayIndex] == ' ') spaces++;
-    }
+int ICharachtersOfTheText(string str) {
+  const char * stringArray = str.c_str();
+  int strLength = strlen(stringArray);
+  int spaces = 0;
+  for (int arrayIndex = 0; stringArray[arrayIndex]; arrayIndex++) {
+    if (stringArray[arrayIndex] == ' ') spaces++;
+  }
 
-    int character = strLength - spaces;
-    return character;
+  int character = strLength - spaces;
+  return character;
 }
 
-
-
 //обработка однобуквенных значение
-void VProcessingSingleLetter(const char *convertToChar, int textSize) {
+void VProcessingSingleLetter(const char * convertToChar, int textSize) {
 
-    for (int oneLetterindex = 0; oneLetterindex < oneLetterArr.size(); ++oneLetterindex) {
-        oneLetterArr[oneLetterindex].countLetter = 0;
-    };
+  for (int oneLetterindex = 0; oneLetterindex < oneLetterArr.size(); ++oneLetterindex) {
+    oneLetterArr[oneLetterindex].countLetter = 0;
+  };
 
-    for (int charIndex = 0; convertToChar[charIndex]; charIndex++) {
-        if (convertToChar[charIndex] != ' ') {
-            char one = convertToChar[charIndex];
-            oneLetterArr.push_back(oneLetterValue());
+  for (int charIndex = 0; convertToChar[charIndex]; charIndex++) {
+    if (convertToChar[charIndex] != ' ') {
+      char one = convertToChar[charIndex];
+      oneLetterArr.push_back(oneLetterValue());
 
-            for (int indexOfOneLetterArr = 0; indexOfOneLetterArr < oneLetterArr.size(); ++indexOfOneLetterArr) {
-                if (oneLetterArr[indexOfOneLetterArr].countLetter > 0) {
-                    if (oneLetterArr[indexOfOneLetterArr].letterName == one) {
-                        int countLetterCopy = oneLetterArr[indexOfOneLetterArr].countLetter;
-                        oneLetterArr[indexOfOneLetterArr].countLetter = countLetterCopy + 1;
-                        break;
-                    }
-                }
-                else if (oneLetterArr[indexOfOneLetterArr].countLetter == 0) {
-                    oneLetterArr[indexOfOneLetterArr].letterName=one;
-                    oneLetterArr[indexOfOneLetterArr].countLetter = 1;
-                    break;
-                }
-            }
+      for (int indexOfOneLetterArr = 0; indexOfOneLetterArr < oneLetterArr.size(); ++indexOfOneLetterArr) {
+        if (oneLetterArr[indexOfOneLetterArr].countLetter > 0) {
+          if (oneLetterArr[indexOfOneLetterArr].letterName == one) {
+            int countLetterCopy = oneLetterArr[indexOfOneLetterArr].countLetter;
+            oneLetterArr[indexOfOneLetterArr].countLetter = countLetterCopy + 1;
+            break;
+          }
+        } else if (oneLetterArr[indexOfOneLetterArr].countLetter == 0) {
+          oneLetterArr[indexOfOneLetterArr].letterName = one;
+          oneLetterArr[indexOfOneLetterArr].countLetter = 1;
+          break;
         }
+      }
     }
+  }
 
 }
 
 //обработка двухбуквенных значение
-void VProcessingTwoLetter(const char *convertToChar, int textSize ) {
+void VProcessingTwoLetter(const char * convertToChar, int textSize) {
 
-    for (int charIndex = 0; convertToChar[charIndex]; ++charIndex) {
-        if (convertToChar[charIndex] != ' ' && convertToChar[charIndex + 1] != ' ') {
-            char two[2] = {
-                convertToChar[charIndex],
-                convertToChar[charIndex + 1]
-            };
+  for (int charIndex = 0; convertToChar[charIndex]; ++charIndex) {
+    if (convertToChar[charIndex] != ' ' && convertToChar[charIndex + 1] != ' ') {
+      char two[2] = {
+        convertToChar[charIndex],
+        convertToChar[charIndex + 1]
+      };
 
-            twoLetterArr.push_back(twoLetterValue());
+      twoLetterArr.push_back(twoLetterValue());
 
-            for (int indexOfTwoLetterArr = 1; indexOfTwoLetterArr < twoLetterArr.size(); ++indexOfTwoLetterArr) {
-                if (twoLetterArr[indexOfTwoLetterArr].letterName != "" && twoLetterArr[indexOfTwoLetterArr].countLetter > 0) {
-                    if (twoLetterArr[indexOfTwoLetterArr].letterName == string(two)) {
-                        int countLetterCopy = twoLetterArr[indexOfTwoLetterArr].countLetter;
-                        twoLetterArr[indexOfTwoLetterArr].countLetter = countLetterCopy + 1;
-                        break;
-                    }
-                }
-                else if (twoLetterArr[indexOfTwoLetterArr].letterName == "" && twoLetterArr[indexOfTwoLetterArr].countLetter == 0) {
-                    int countLetterCopy = twoLetterArr[indexOfTwoLetterArr].countLetter;
-                    twoLetterArr[indexOfTwoLetterArr].letterName = string(two);
-                    twoLetterArr[indexOfTwoLetterArr].countLetter = countLetterCopy + 1;
-                    break;
-                }
-            }
+      for (int indexOfTwoLetterArr = 1; indexOfTwoLetterArr < twoLetterArr.size(); ++indexOfTwoLetterArr) {
+        if (twoLetterArr[indexOfTwoLetterArr].letterName != "" && twoLetterArr[indexOfTwoLetterArr].countLetter > 0) {
+          if (twoLetterArr[indexOfTwoLetterArr].letterName == string(two)) {
+            int countLetterCopy = twoLetterArr[indexOfTwoLetterArr].countLetter;
+            twoLetterArr[indexOfTwoLetterArr].countLetter = countLetterCopy + 1;
+            break;
+          }
+        } else if (twoLetterArr[indexOfTwoLetterArr].letterName == "" && twoLetterArr[indexOfTwoLetterArr].countLetter == 0) {
+          int countLetterCopy = twoLetterArr[indexOfTwoLetterArr].countLetter;
+          twoLetterArr[indexOfTwoLetterArr].letterName = string(two);
+          twoLetterArr[indexOfTwoLetterArr].countLetter = countLetterCopy + 1;
+          break;
         }
+      }
     }
+  }
 }
 
 // вывод частота повторения однобуквенного значения
 void VprintFrequencySingleLetterValue() {
-    cout << "Частота повторения однобуквенного значения: " << endl;
+  cout << "Частота повторения однобуквенного значения: " << endl;
 
-    for (int oneLetterindex = 0; oneLetterindex < oneLetterArr.size(); ++oneLetterindex) {
-        if (oneLetterArr[oneLetterindex].countLetter != 0 && oneLetterArr[oneLetterindex].countLetter > 1) {
-            cout << "\"" << oneLetterArr[oneLetterindex].letterName << "\"" << " = " << oneLetterArr[oneLetterindex].countLetter << "; ";
-        }
+  for (int oneLetterindex = 0; oneLetterindex < oneLetterArr.size(); ++oneLetterindex) {
+    if (oneLetterArr[oneLetterindex].countLetter != 0 && oneLetterArr[oneLetterindex].countLetter > 1) {
+      cout << "\"" << oneLetterArr[oneLetterindex].letterName << "\"" << " = " << oneLetterArr[oneLetterindex].countLetter << "; ";
     }
+  }
 }
 
 //выыод частоту повторение двухбуквенных значение
-void VprintFrequencyTwoLetterValue () {
-    cout << endl << "Частоту повторение двухбуквенных значение: " << endl;
-    for (int twoLetterIndex = 0; twoLetterIndex < twoLetterArr.size(); ++twoLetterIndex) {
-        if (twoLetterArr[twoLetterIndex].letterName != "" && twoLetterArr[twoLetterIndex].countLetter > 1) {
-            cout << "\"" << twoLetterArr[twoLetterIndex].letterName << "\"" << " = " << twoLetterArr[twoLetterIndex].countLetter << "; ";
-        }
+void VprintFrequencyTwoLetterValue() {
+  cout << endl << "Частоту повторение двухбуквенных значение: " << endl;
+  for (int twoLetterIndex = 0; twoLetterIndex < twoLetterArr.size(); ++twoLetterIndex) {
+    if (twoLetterArr[twoLetterIndex].letterName != "" && twoLetterArr[twoLetterIndex].countLetter > 1) {
+      cout << "\"" << twoLetterArr[twoLetterIndex].letterName << "\"" << " = " << twoLetterArr[twoLetterIndex].countLetter << "; ";
     }
+  }
 }
 
 int main() {
 
-    setlocale(LC_ALL, "rus");
+  setlocale(LC_ALL, "rus");
 
-    ofstream InformationFile("information.txt");
-    InformationFile << "A abbbkjlsjd jknkdjnf=---==0===+++++12345722221112465";
-    InformationFile.close();
+  ofstream InformationFile("information.txt");
+  InformationFile << "A abbbkjlsjd jknkdjnf=---==0===+++++12345722221112465";
+  InformationFile.close();
 
-    ifstream OpenInformationFile("information.txt");
-    string str;
-    getline(OpenInformationFile, str);
-    cout << str << endl << endl;
+  ifstream OpenInformationFile("information.txt");
+  string str;
+  getline(OpenInformationFile, str);
+  cout << str << endl << endl;
 
-    string text = SProcessingAndLower (str); // Преобразование прописных букв в строчные
-    const char *convertToChar = text.c_str();
+  string text = SProcessingAndLower(str); // Преобразование прописных букв в строчные
+  const char * convertToChar = text.c_str();
 
-    VProcessingSingleLetter(convertToChar, ICharachtersOfTheText(str)); //обработка однобуквенных значение
-    VProcessingTwoLetter(convertToChar, ICharachtersOfTheText(str) * 2); //обработка двухбуквенных значение
-    VprintFrequencySingleLetterValue (); // вывод частота повторения однобуквенного значения
-    VprintFrequencyTwoLetterValue ();  //выыод частоту повторение двухбуквенных значение
+  VProcessingSingleLetter(convertToChar, ICharachtersOfTheText(str)); //обработка однобуквенных значение
+  VProcessingTwoLetter(convertToChar, ICharachtersOfTheText(str) * 2); //обработка двухбуквенных значение
+  VprintFrequencySingleLetterValue(); // вывод частота повторения однобуквенного значения
+  VprintFrequencyTwoLetterValue(); //выыод частоту повторение двухбуквенных значение
 
-    OpenInformationFile.close();
-// 	system("pause");
-    return 0;
+  OpenInformationFile.close();
+  // 	system("pause");
+  return 0;
 }
-
