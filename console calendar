@@ -1,0 +1,98 @@
+// https://onlinegdb.com/VBbPUFuAI
+/**********************************************
+ * Автор:    Халилов Н.Х.                      *
+ * Дата:     10.11.2021                        *
+ * Название: Каледарь в консоли                *
+ ***********************************************/
+#include <iostream>
+#include <stdio.h>
+#include <fstream>
+#include <time.h>
+#include <string.h>
+
+using namespace std;
+
+int main() {
+  // ofstream information("information.txt");
+  FILE * fp = fopen("test.txt", "r+w");
+
+  if (fp == NULL) {
+    cout << "Обработка ситуации \"Не удалось открыть файл\"" << endl;
+  }
+  
+  time_t now;
+  struct tm * timeinfo;
+  int year, m, m1, m2, i, j;
+  const char * month[] = {
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь"
+  };
+
+  cout << "ГОД: ";
+  cin >> year;
+  time( & now);
+  timeinfo = localtime( & now);
+
+  timeinfo -> tm_year = year - 1900;
+
+  timeinfo -> tm_mon = 0;
+
+  m = -1;
+  while (m < 12) {
+
+    for (i = 1; i < 33; i++) {
+
+      timeinfo -> tm_mday = i;
+
+      mktime(timeinfo);
+
+      if (timeinfo -> tm_mon > m) {
+
+        // char * my_str = strdup(month[timeinfo->tm_mon]);
+
+        fprintf(fp, "\n                 %s      —\n", month[timeinfo -> tm_mon]);
+        fprintf(fp, "_______________________________\n");
+        fprintf(fp, "  ВС  ПН  ВТ  СР  ЧТ  ПТ  СБ   \n");
+        fprintf(fp, "_______________________________\n");
+        for (j = 0; j < (timeinfo -> tm_wday); j++)
+          fprintf(fp, "    ");
+        m++;
+        break;
+      }
+      if (m == 11 && timeinfo -> tm_mon == 0) {
+        m++;
+        break;
+      }
+      // int* pValValue = &timeinfo->tm_mday;
+      fprintf(fp, "%4d", timeinfo -> tm_mday);
+
+      if (timeinfo -> tm_wday == 6)
+        fprintf(fp, "\n");
+    }
+  }
+
+  // ifstream calendar("test.txt");
+
+  // for (i=1; i<116; ++i) {
+  //     string str;
+  // getline(calendar, str);
+  // cout << "text = \"" << str << "\"" << endl;
+  // }
+
+  fclose(fp);
+  // calendar.close();
+
+  getchar();
+
+  return 0;
+}
