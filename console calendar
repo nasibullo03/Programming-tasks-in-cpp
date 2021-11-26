@@ -1,4 +1,4 @@
-//https://onlinegdb.com/OKjrej2O0s
+//https://onlinegdb.com/l36p54bWI
 /**********************************************
  * Автор:    Халилов Н.Х.                      *
  * Дата:     10.11.2021                        *
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int step = 0;
+int monthNumber = 0;
 int stepByWeeks = 0;
 int dayOnWeek = 1;
 int dayOfFirstWeek = 1;
@@ -40,20 +40,28 @@ void printSpacesBefore(int weekDay) {
 
 void printSpacesAfter(int weekDay) {
   weekDay += 1;
-  for (int j = 1; j <= 8 - weekDay; j++) {
+  for (int j = 1; j <= 7 - weekDay; j++) {
     cout << setw(4) << " ";
   }
 }
-void printMonthName(int step) {
-  int Month = step;
-  if (step == 0 || step == 3 || step == 6 || step == 9) {
+void printMonthName(int monthNumber) {
+  int Month = monthNumber;
+  
+  if (monthNumber == 0 || monthNumber == 3 || monthNumber == 6 || monthNumber == 9) {
     int space = strlen(month[Month]) / 2;
+    
     cout << endl << setw(31 + space) << month[Month];
+    
     Month = Month + 1;
+    
     int space1 = strlen(month[Month]) / 2;
+    
     cout << " " << setw(31 + space1) << month[Month];
+    
     Month = Month + 1;
+    
     int space2 = strlen(month[Month]) / 2;
+    
     cout << " " << setw(31 + space2) << month[Month] << endl;
     cout << "_______________________________";
     cout << " " << "_______________________________";
@@ -68,204 +76,227 @@ void printMonthName(int step) {
 }
 
 int main() {
-  setlocale(LC_ALL,"Russian");
+  setlocale(LC_ALL, "Russian");
+  
   time_t now;
   struct tm * timeinfo;
-  int year, m, m1, m2, i, j;
+  
+  int year;
 
   cout << "ГОД: ";
   cin >> year;
+ 
   time( & now);
   timeinfo = localtime( & now);
 
   timeinfo -> tm_year = year - 1900;
-
   timeinfo -> tm_mon = 0;
 
-  step = 0;
+  monthNumber = 0;
   stepByWeeks = 0;
   dayOnWeek = 1;
   dayOfFirstWeek = 1;
   dayOfSecondWeek = 1;
   dayOfThirdWeek = 1;
-  bool week1 = false, week2 = false, week3 = false;
-  for (int g = 0; g < 4; ++g) {
-    printMonthName(step);
+  bool endOfColumn1 = false, endOfColumn2 = false, endOfColumn3 = false;
+  
+  for (int strokeOfMonths = 0; strokeOfMonths < 4; ++strokeOfMonths) {
+    printMonthName(monthNumber);
 
-    timeinfo -> tm_mon = step;
+    timeinfo -> tm_mon = monthNumber;
     timeinfo -> tm_mday = 1;
     mktime(timeinfo);
-    for (int weeks = 1; weeks <= 6; ++weeks) {
-      for (int week = 1; week <= 3; ++week) {
-        if (timeinfo -> tm_mday = 1) {
-          printSpacesBefore(timeinfo -> tm_wday);
-        }
+    for (int strokeOfWeeks = 1; strokeOfWeeks <= 6; ++strokeOfWeeks) {
+      for (int columnOfMonth = 1; columnOfMonth <= 3; ++columnOfMonth) {
 
-        int yesterday = 0;
+        int today = 0, tomorrow = 0;
 
-        for (i = dayOnWeek; i <= 31; i++) {
-          timeinfo -> tm_mon = step;
-          timeinfo -> tm_mday = i;
+        for (int day = dayOnWeek; day <= 31; day++) {
+          timeinfo -> tm_mon = monthNumber;
+          timeinfo -> tm_mday = day + 1;
           mktime(timeinfo);
-          if (yesterday == 28 && timeinfo -> tm_mday == 1) {
+          
+          tomorrow = timeinfo -> tm_mday;
 
-            printSpacesAfter(timeinfo -> tm_wday);
+          timeinfo -> tm_mon = monthNumber;
+          timeinfo -> tm_mday = day;
+          mktime(timeinfo);
+          
+          today = timeinfo -> tm_mday;
 
-            if (week == 1) {
-              dayOfFirstWeek = 1;
-              dayOnWeek = dayOfSecondWeek;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              cout << setw(4) << " ";
-              week1 = true;
-              break;
-
-            } else if (week == 2) {
-              dayOfSecondWeek = 1;
-              dayOnWeek = dayOfThirdWeek;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              cout << setw(4) << " ";
-              week2 = true;
-              break;
-
-            } else if (week == 3) {
-              dayOfThirdWeek = 1;
-              dayOnWeek = dayOfFirstWeek;
-              step -= 3;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              week3 = true;
-              cout << endl;
-              break;
-
-            }
-          } else if (yesterday == 29 && timeinfo -> tm_mday == 1) {
-
-            printSpacesAfter(timeinfo -> tm_wday);
-
-            if (week == 1) {
-              dayOfFirstWeek = 1;
-              dayOnWeek = dayOfSecondWeek;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              cout << setw(4) << " ";
-              week1 = true;
-              break;
-
-            } else if (week == 2) {
-              dayOfSecondWeek = 1;
-              dayOnWeek = dayOfThirdWeek;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              cout << setw(4) << " ";
-              week2 = true;
-              break;
-
-            } else if (week == 3) {
-              dayOfThirdWeek = 1;
-              dayOnWeek = dayOfFirstWeek;
-              step -= 3;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              week3 = true;
-              cout << endl;
-              break;
-
-            }
-          } else if (yesterday == 30 && timeinfo -> tm_mday == 1) {
-
-            printSpacesAfter(timeinfo -> tm_wday);
-
-            if (week == 1) {
-              dayOfFirstWeek = 1;
-              dayOnWeek = dayOfSecondWeek;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              cout << setw(4) << " ";
-              week1 = true;
-              break;
-
-            } else if (week == 2) {
-              dayOfSecondWeek = 1;
-              dayOnWeek = dayOfThirdWeek;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              cout << setw(4) << " ";
-              week2 = true;
-              break;
-
-            } else if (week == 3) {
-              dayOfThirdWeek = 1;
-              dayOnWeek = dayOfFirstWeek;
-              step -= 3;
-              timeinfo -> tm_mon = step + 1;
-              timeinfo -> tm_mday = dayOnWeek;
-              mktime(timeinfo);
-              week3 = true;
-              cout << endl;
-              break;
-
-            }
+          if (today == 1) {
+            printSpacesBefore(timeinfo -> tm_wday);
           }
-          if ((week1 == true && week == 1) || (week2 == true && week == 2) || (week3 == true && week == 3)) {
+
+          if ((endOfColumn1 == true && columnOfMonth == 1) || (endOfColumn2 == true && columnOfMonth == 2) || (endOfColumn3 == true && columnOfMonth == 3)) {
             cout << setw(4) << " ";
           } else {
             cout << setw(4) << timeinfo -> tm_mday;
-            yesterday = timeinfo -> tm_mday;
+
           }
 
-          if (timeinfo -> tm_mday == 31) {
+          if (today == 28 && tomorrow == 1) {
 
-            printSpacesAfter(timeinfo -> tm_wday + 1);
+            printSpacesAfter(timeinfo -> tm_wday);
 
-            if (week == 1) {
+            if (columnOfMonth == 1) {
               dayOfFirstWeek = 1;
               dayOnWeek = dayOfSecondWeek;
-              timeinfo -> tm_mon = step + 1;
+              timeinfo -> tm_mon = monthNumber + 1;
               timeinfo -> tm_mday = dayOnWeek;
               mktime(timeinfo);
               cout << setw(4) << " ";
-              week1 = true;
+              endOfColumn1 = true;
+              
               break;
 
-            } else if (week == 2) {
+            } else if (columnOfMonth == 2) {
               dayOfSecondWeek = 1;
               dayOnWeek = dayOfThirdWeek;
-              timeinfo -> tm_mon = step + 1;
+              timeinfo -> tm_mon = monthNumber + 1;
               timeinfo -> tm_mday = dayOnWeek;
               mktime(timeinfo);
               cout << setw(4) << " ";
-              week2 = true;
+              endOfColumn2 = true;
+              
               break;
-
-            } else if (week == 3) {
+              
+            } else if (columnOfMonth == 3) {
               dayOfThirdWeek = 1;
               dayOnWeek = dayOfFirstWeek;
-              step -= 3;
-              timeinfo -> tm_mon = step + 1;
+              monthNumber -= 3;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              endOfColumn3 = true;
+              cout << endl;
+              
+              break;
+              
+            }
+          } else if (today == 29 && tomorrow == 1) {
+
+            printSpacesAfter(timeinfo -> tm_wday);
+
+            if (columnOfMonth == 1) {
+              dayOfFirstWeek = 1;
+              dayOnWeek = dayOfSecondWeek;
+              timeinfo -> tm_mon = monthNumber + 1;
               timeinfo -> tm_mday = dayOnWeek;
               mktime(timeinfo);
               cout << setw(4) << " ";
+              endOfColumn1 = true;
+              
+              break;
+              
+            } else if (columnOfMonth == 2) {
+              dayOfSecondWeek = 1;
+              dayOnWeek = dayOfThirdWeek;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              cout << setw(4) << " ";
+              endOfColumn2 = true;
+              
+              break;
+              
+            } else if (columnOfMonth == 3) {
+              dayOfThirdWeek = 1;
+              dayOnWeek = dayOfFirstWeek;
+              monthNumber -= 3;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              endOfColumn3 = true;
               cout << endl;
-              week3 = true;
+              
+              break;
+              
+            }
+          } else if (today == 30 && tomorrow == 1) {
+
+            printSpacesAfter(timeinfo -> tm_wday);
+
+            if (columnOfMonth == 1) {
+              dayOfFirstWeek = 1;
+              dayOnWeek = dayOfSecondWeek;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              cout << setw(4) << " ";
+              endOfColumn1 = true;
+              
+              break;
+              
+            } else if (columnOfMonth == 2) {
+              dayOfSecondWeek = 1;
+              dayOnWeek = dayOfThirdWeek;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              cout << setw(4) << " ";
+              endOfColumn2 = true;
+              
+              break;
+              
+            } else if (columnOfMonth == 3) {
+              dayOfThirdWeek = 1;
+              dayOnWeek = dayOfFirstWeek;
+              monthNumber -= 3;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              endOfColumn3 = true;
+              cout << endl;
+              
+              break;
+              
+            }
+          } else if (today == 31 && tomorrow == 1) {
+
+            printSpacesAfter(timeinfo -> tm_wday);
+
+            if (columnOfMonth == 1) {
+              dayOfFirstWeek = 1;
+              dayOnWeek = dayOfSecondWeek;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              endOfColumn1 = true;
+              cout << setw(4) << " ";
+
+              break;
+              
+            } else if (columnOfMonth == 2) {
+              dayOfSecondWeek = 1;
+              dayOnWeek = dayOfThirdWeek;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              endOfColumn2 = true;
+              cout << setw(4) << " ";
+
+              break;
+
+            } else if (columnOfMonth == 3) {
+              dayOfThirdWeek = 1;
+              dayOnWeek = dayOfFirstWeek;
+              monthNumber -= 3;
+              timeinfo -> tm_mon = monthNumber + 1;
+              timeinfo -> tm_mday = dayOnWeek;
+              mktime(timeinfo);
+              endOfColumn3 = true;
+              cout << endl;
+              
               break;
 
             }
           }
 
-          if (timeinfo -> tm_wday == 6 && week == 1) {
-            dayOfFirstWeek = i + 1;
+          if (timeinfo -> tm_wday == 6 && columnOfMonth == 1) {
+            dayOfFirstWeek = day + 1;
             dayOnWeek = dayOfSecondWeek;
-            timeinfo -> tm_mon = step + 1;
+            timeinfo -> tm_mon = monthNumber + 1;
             timeinfo -> tm_mday = dayOnWeek;
             mktime(timeinfo);
 
@@ -273,41 +304,42 @@ int main() {
 
             break;
 
-          } else if (timeinfo -> tm_wday == 6 && week == 2) {
-            dayOfSecondWeek = i + 1;
+          } else if (timeinfo -> tm_wday == 6 && columnOfMonth == 2) {
+            dayOfSecondWeek = day + 1;
             dayOnWeek = dayOfThirdWeek;
-            timeinfo -> tm_mon = step + 1;
+            timeinfo -> tm_mon = monthNumber + 1;
             timeinfo -> tm_mday = dayOnWeek;
             mktime(timeinfo);
             cout << setw(4) << " ";
+            
             break;
 
-          } else if (timeinfo -> tm_wday == 6 && week == 3) {
-            dayOfThirdWeek = i + 1;
+          } else if (timeinfo -> tm_wday == 6 && columnOfMonth == 3) {
+            dayOfThirdWeek = day + 1;
             dayOnWeek = dayOfFirstWeek;
-            step -= 3;
-            timeinfo -> tm_mon = step + 1;
+            monthNumber -= 3;
+            timeinfo -> tm_mon = monthNumber + 1;
             timeinfo -> tm_mday = dayOnWeek;
             mktime(timeinfo);
-            cout << setw(4) << " ";
             cout << endl;
+            
             break;
 
           }
 
         }
-        ++step;
+        ++monthNumber;
       }
 
-      if (weeks == 6) {
+      if (strokeOfWeeks == 6) {
         dayOnWeek = 1;
         dayOfFirstWeek = 1;
         dayOfSecondWeek = 1;
         dayOfThirdWeek = 1;
-        step += 3;
-        week1 = false;
-        week2 = false;
-        week3 = false;
+        monthNumber += 3;
+        endOfColumn1 = false;
+        endOfColumn2 = false;
+        endOfColumn3 = false;
         break;
       }
     }
