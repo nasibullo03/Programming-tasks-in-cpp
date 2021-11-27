@@ -1,1 +1,139 @@
+// https://onlinegdb.com/Fh-OgGJEj
+/**********************************************
+ * Автор:    Халилов Н.Х.                      *
+ * Дата:     26.11.2021                        *
+ * Название: Перевод арабских чисел            *
+ ***********************************************/
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <map> 
+#include <vector>
+
+using namespace std;
+
+
+
+typedef struct {
+    char strNumber;
+    int intNumber;
+} roman_t;
+
+vector <roman_t> RomanNumeral;
+
+void listOfRomanNumeral(){
+   RomanNumeral.push_back({'I',1}); 
+//   RomanNumeral.push_back({"II",2}); 
+//   RomanNumeral.push_back({"III",3}); 
+//   RomanNumeral.push_back({"IV",4}); 
+   RomanNumeral.push_back({'V',5}); 
+//   RomanNumeral.push_back({'VI',6}); 
+//   RomanNumeral.push_back({'VII',7}); 
+//   RomanNumeral.push_back({'VIII',8}); 
+//   RomanNumeral.push_back({'IX',9}); 
+   RomanNumeral.push_back({'X',10}); 
+//   RomanNumeral.push_back({'XX',20}); 
+//   RomanNumeral.push_back({'XXX',30}); 
+//   RomanNumeral.push_back({'XL',40}); 
+   RomanNumeral.push_back({'L',50}); 
+//   RomanNumeral.push_back({'XC',90}); 
+   RomanNumeral.push_back({'C',100}); 
+//   RomanNumeral.push_back({'CС',200}); 
+//   RomanNumeral.push_back({'CСС',300}); 
+//   RomanNumeral.push_back({'CD',400}); 
+   RomanNumeral.push_back({'D',500}); 
+//   RomanNumeral.push_back({'СM',900}); 
+   RomanNumeral.push_back({'M',1000}); 
+//   RomanNumeral.push_back({'MM',2000}); 
+//   RomanNumeral.push_back({'MMM',3000});
+}
+
+void menu() {
+    
+   
+    cout << "1 - Преобразование арабских цифр в римские цифры" << endl;
+    cout << "2 - Преобразование римских цифр в арабские цифры" << endl;
+    cout << "3 - Выход" << endl;
+}
+    
+void convertArabicNumeralsToRomanNumerals(){
+    // cout << endl << 1 << endl << endl;
+}
+   
+void convertRomanNumeralsToArabicNumerals(string RomanNumber){
+    // cout << endl << 2 << endl<< endl;
+    listOfRomanNumeral();
+    int number = 0, num=0;
+    
+    for ( int symbol = 0; RomanNumber[symbol]; ++symbol) {
+     
+      for (int arrIndex=0; arrIndex < RomanNumeral.size(); ++ arrIndex ){
+          if (RomanNumeral[arrIndex].strNumber == RomanNumber[symbol]){
+          
+          if (number < RomanNumeral[arrIndex].intNumber && number != 0){
+              
+              num = num - number + RomanNumeral[arrIndex].intNumber - number;
+              
+              
+             
+          } else {
+             
+              num += RomanNumeral[arrIndex].intNumber;
+              
+              number = RomanNumeral[arrIndex].intNumber;
+              
+          }
+        
+          
+          break;
+      }
+      }
+      
+    
+        
+    }
+    cout << num << endl;
+}
+
+string inputText(){
+    string romanNumber;
+    cout << "Введите римские цифры: ";
+    cin >> romanNumber;
+    return romanNumber;
+}
+
+int main() {
+   
+    bool exit_r_f = false;
+    while (!exit_r_f) {
+    
+    menu();
+    
+    int pointer;
+    cin >> pointer; 
+    
+    switch (pointer){
+        
+        case 1:
+        system("clear");
+        // convertArabicNumeralsToRomanNumerals();
+        
+        break;
+        case 2:
+        system("clear");
+        
+        convertRomanNumeralsToArabicNumerals(inputText());
+        
+        break;
+        case 3:
+        exit_r_f = true;
+        break;
+        
+    }
+    
+}
+    return 0;
+}
+
+
 
